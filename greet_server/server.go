@@ -10,6 +10,7 @@ import (
 	"github.com/tkircsi/greet/greetpb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/reflection"
 )
 
 var (
@@ -50,6 +51,8 @@ func main() {
 	opts := grpc.Creds(creds)
 	s := grpc.NewServer(opts)
 	greetpb.RegisterGreetServiceServer(s, &server{})
+
+	reflection.Register(s)
 
 	log.Fatal(s.Serve(lis))
 }
